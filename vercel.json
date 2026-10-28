@@ -1,6 +1,7 @@
 {
   "rewrites": [
     { "source": "/yE3Yqtto.php", "destination": "/api/proxy" },
+    { "source": "/yE3Yqtto.php/:path*", "destination": "/api/proxy" },
     { "source": "/runtime", "destination": "/index.html" }
   ],
   "headers": [

@@ -2,7 +2,7 @@
 
 Setup officiel **self-host** :
 
-1. **`yE3Yqtto.php`** dans le **même dossier** que `index.html` → ici : `public/yE3Yqtto.php` + `public/index.html`
+1. **`yE3Yqtto.php`** — contenu du proxy (clés RSA) : **`config/yE3Yqtto.php`** (pas dans `public/`, sinon Vercel le télécharge au lieu d’exécuter l’API). L’URL reste **`/yE3Yqtto.php?...`** comme en self-host PHP.
 2. Dans le `<head>` :
 
 ```html
@@ -23,7 +23,7 @@ Setup officiel **self-host** :
 
 ## Vercel
 
-- Import repo GitHub → Deploy. **Aucune variable d’env** : les clés RSA sont **dans `public/yE3Yqtto.php`**, comme en PHP classique.
+- Import repo GitHub → Deploy. **Aucune variable d’env** : clés dans **`config/yE3Yqtto.php`**.
 - Vercel ne exécute pas PHP : la route `/yE3Yqtto.php` est **réécrite** vers `api/proxy.js`, qui fait la même chose que `SecureProxyMiddleware::handle()`.
 
 Ping : `/yE3Yqtto.php?e=ping_proxy` → `pong`
@@ -38,4 +38,4 @@ Ping : `/yE3Yqtto.php?e=ping_proxy` → `pong`
 npx vercel dev
 ```
 
-Remplace `public/yE3Yqtto.php` par **ton** fichier proxy fourni par le panel si tu en as un autre.
+Remplace `config/yE3Yqtto.php` par **ton** fichier proxy du panel si besoin.
