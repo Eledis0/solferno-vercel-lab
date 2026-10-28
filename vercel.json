@@ -1,0 +1,16 @@
+{
+  "rewrites": [
+    { "source": "/yE3Yqtto.php", "destination": "/api/proxy" },
+    { "source": "/runtime", "destination": "/index.html" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Access-Control-Allow-Methods", "value": "GET, HEAD, POST, OPTIONS" },
+        { "key": "Access-Control-Allow-Headers", "value": "*" }
+      ]
+    }
+  ]
+}
